@@ -5,6 +5,7 @@ export default {
         const mySwal = swal.mixin({
             type: 'warning',
             showCancelButton: true,
+            heightAuto: false,
             confirmButtonColor: 'rgb(140,212,245)',
             cancelButtonColor: 'rgb(193,193,193)'
         })
