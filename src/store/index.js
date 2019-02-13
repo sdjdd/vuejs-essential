@@ -10,7 +10,7 @@ Vue.use(Vuex)
 const state = {
     user: ls.getItem('user'),
     auth: ls.getItem('auth'),
-    aritcles: ls.getItem('articles'),
+    articles: ls.getItem('articles'),
 }
 
 const mutations = {

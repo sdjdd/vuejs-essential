@@ -13,6 +13,8 @@
     "bootstrap-sass": "^3.4.0",
     "font-awesome": "^4.7.0",
     "highlight.js": "^9.14.2",
+    "moment": "^2.24.0",
+    "node-emoji": "^1.8.1",
     "simplemde": "^1.11.2",
     "sweetalert2": "^8.0.6",
     "vue": "^2.5.2",

@@ -23,6 +23,7 @@
 <script>
 import SimpleMDE from 'simplemde'
 import hljs from 'highlight.js'
+import emoji from 'node-emoji'
 
 export default {
   name: 'Content',
@@ -41,7 +42,7 @@ export default {
       let { title, content, date } = article
 
       this.title = title
-      this.content = SimpleMDE.prototype.markdown(content)
+      this.content = SimpleMDE.prototype.markdown(emoji.emojify(content, name => name))
       this.date = date
 
       this.$nextTick(() => {
