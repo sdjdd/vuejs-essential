@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import ls from '../utils/localStorage'
 import router from '../router'
 import * as moreActions from './actions'
+import { parse } from 'url';
 
 Vue.use(Vuex)
 
@@ -47,8 +48,22 @@ const actions = {
     ...moreActions,
 }
 
+const getters = {
+    getArticleById: (state) => (id) => {
+        let articles = state.articles
+
+        if (Array.isArray(articles)) {
+            articles = articles.filter(article => parseInt(id) === parseInt(article.articleId))
+            return articles.length ? articles[0] : null
+        } else {
+            return null
+        }
+    }
+}
+
 const store = new Vuex.Store({
     state,
+    getters,
     mutations,
     actions
 })
