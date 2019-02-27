@@ -33,7 +33,7 @@
           <div class="user-lists">
             <span v-for="likeUser in likeUsers" :key="likeUser.uid">
               <!-- 点赞用户是当前用户时，加上类 animated 和 swing 以显示一个特别的动画  -->
-              <img :src="user && user.avatar" class="img-thumbnail avatar avatar-middle" :class="{ 'animated swing' : likeUser.uid === 1 }">
+              <router-link :to="`/${likeUser.uname}`" :src="likeUser.uavatar" tag="img" class="img-thumbnail avatar avatar-middle" :class="{ 'animated swing' : likeUser.uid === 1 }"></router-link>
             </span>
           </div>
           <div v-if="!likeUsers.length" class="vote-hint">成为第一个点赞的人吧 ?</div>
@@ -258,14 +258,14 @@ export default {
           this.likeClass = ''
           // 分发 like 事件取消赞，更新实例的 likeUsers 为返回的值
           this.$store.dispatch('like', { articleId }).then((likeUsers) => {
-            this.likeUsers = likeUsers
+            this.likeUsers = this.recompute('likeUsers')
           })
         } else {
           // 添加已赞样式
           this.likeClass = 'active animated rubberBand'
           // 分发 like 事件，传入 isAdd 参数点赞，更新实例的 likeUsers 为返回的值
           this.$store.dispatch('like', { articleId, isAdd: true }).then((likeUsers) => {
-            this.likeUsers = likeUsers
+            this.likeUsers = this.recompute('likeUsers')
           })
         }
       }
@@ -299,6 +299,7 @@ export default {
     },
     renderComments(comments) {
       if (Array.isArray(comments)) {
+        comments = this.recompute('comments')
         // 深拷贝 comments 以不影响其原值
         const newComments = comments.map(comment => ({ ...comment }))
         const user = this.user || {}
@@ -375,6 +376,19 @@ export default {
           this.cancelEditComment()
         }
       })
+    },
+    // 返回带用户信息的文章的某项属性
+    recompute(key) {
+      const articleId = this.$route.params.articleId
+      // 这里的文章是基于 getters.computedArticles 的，所以包含用户信息了
+      const article = this.$store.getters.getArticleById(articleId)
+      let arr
+
+      if (article) {
+        arr = article[key]
+      }
+
+      return arr || []
     },
   }
 }
